@@ -92,8 +92,9 @@ public class AlarmSignalActivity extends AppCompatActivity {
             mMediaPlayer.reset();
             mMediaPlayer.setDataSource(this, Uri.parse(urlSound));
             mMediaPlayer.prepare();
-            mMediaPlayer.setVolume(0.7f,0.7f);
+            mMediaPlayer.setVolume(1.0f,1.0f);
             mMediaPlayer.setScreenOnWhilePlaying(true); // не дает уснуть во премя воспроизведениея ?
+            mMediaPlayer.setLooping(true); // зациклим до окончания работы активности
             mMediaPlayer.start();
         } catch (IOException e) {
             e.printStackTrace();
@@ -115,7 +116,9 @@ public class AlarmSignalActivity extends AppCompatActivity {
 
         @Override
         public void onCompletion(MediaPlayer mediaPlayer) {
+            if (mediaPlayer.isPlaying()) {
 
+            }
         }
     };
 

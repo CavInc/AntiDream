@@ -34,6 +34,7 @@
         </receiver>
 
         <activity android:name=".ui.activity.AlarmSignalActivity"
+                  android:configChanges="orientation|screenSize"
                   android:launchMode="singleTop"
                   android:showOnLockScreen="true"
             android:screenOrientation="portrait"
