@@ -9,6 +9,8 @@ import android.os.PowerManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -127,6 +129,31 @@ public class AlarmSignalActivity extends AppCompatActivity {
             if (mediaPlayer.isPlaying()) {
 
             }
+        }
+    };
+
+    // экран
+    //http://android.okhelp.cz/turn-screen-on-off-android-sample-code/
+    //https://habr.com/company/appsministry/blog/168573/
+
+
+    //http://findevelop.blogspot.ru/2012/07/drag-and-drop-android.html
+    //http://startandroid.ru/ru/uroki/vse-uroki-spiskom/167-urok-102-touch-obrabotka-kasanija.html
+    //http://www.vogella.com/tutorials/AndroidDragAndDrop/article.html
+    View.OnTouchListener mOnTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent event) {
+            x = event.getX();
+            y = event.getY();
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN: // нажатие
+                    break;
+                case MotionEvent.ACTION_MOVE: // движение
+                    break;
+                case MotionEvent.ACTION_UP: // отпускание
+                    break;
+            }
+            return true;
         }
     };
 

@@ -4,6 +4,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -13,7 +15,7 @@ import cav.antidream.data.database.DBConnect;
 import cav.antidream.data.models.AlarmModel;
 import cav.antidream.ui.adapters.HistoryAlarmAdapter;
 
-public class HistoryAlarm extends AppCompatActivity {
+public class HistoryAlarm extends AppCompatActivity implements AdapterView.OnItemLongClickListener {
     private ListView mListView;
 
     private HistoryAlarmAdapter mAdapter;
@@ -61,5 +63,12 @@ public class HistoryAlarm extends AppCompatActivity {
             mAdapter.setData(model);
             mAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+         // TODO показывать что надо редактировать или удалить
+
+        return false;
     }
 }
