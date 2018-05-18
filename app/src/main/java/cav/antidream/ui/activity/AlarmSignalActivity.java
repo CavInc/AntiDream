@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.Date;
 
 import cav.antidream.R;
+import cav.antidream.data.database.DBConnect;
 import cav.antidream.utils.Utils;
 
 public class AlarmSignalActivity extends AppCompatActivity {
@@ -78,6 +79,9 @@ public class AlarmSignalActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        DBConnect dbConnect = new DBConnect(this);
+        dbConnect.setStopUser(alarm_id,false);
+
         startMusic();
     }
 
@@ -88,16 +92,20 @@ public class AlarmSignalActivity extends AppCompatActivity {
     }
 
     private void startMusic(){
-        try {
-            mMediaPlayer.reset();
-            mMediaPlayer.setDataSource(this, Uri.parse(urlSound));
-            mMediaPlayer.prepare();
-            mMediaPlayer.setVolume(1.0f,1.0f);
-            mMediaPlayer.setScreenOnWhilePlaying(true); // не дает уснуть во премя воспроизведениея ?
-            mMediaPlayer.setLooping(true); // зациклим до окончания работы активности
-            mMediaPlayer.start();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (urlSound!=null && urlSound.length()!=0) {
+            try {
+                mMediaPlayer.reset();
+                mMediaPlayer.setDataSource(this, Uri.parse(urlSound));
+                mMediaPlayer.prepare();
+                mMediaPlayer.setVolume(1.0f, 1.0f);
+                mMediaPlayer.setScreenOnWhilePlaying(true); // не дает уснуть во премя воспроизведениея ?
+                mMediaPlayer.setLooping(true); // зациклим до окончания работы активности
+                int duration = mMediaPlayer.getDuration();
+                mMediaPlayer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+
+            }
         }
     }
 

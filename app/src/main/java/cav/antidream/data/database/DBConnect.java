@@ -40,6 +40,7 @@ public class DBConnect {
         values.put("datetime", Utils.dateToStr("yyyy-MM-dd HH:mm",data.getAlarmDate()));
         values.put("alarm_size",data.getAlarmSize());
         values.put("url_sound",data.getAlarmUrlMelodu());
+        values.put("used",0);
         int rec_id = (int) database.insert(DBHelper.ALARM_TABLE,null,values);
         close();
         return rec_id;
@@ -50,7 +51,7 @@ public class DBConnect {
         ArrayList<AlarmModel> rec = new ArrayList<>();
         open();
         Cursor cursor = database.query(DBHelper.ALARM_TABLE,
-                new String[]{"_id","name_alarm","datetime","stop_type","alarm_size","url_sound"},null,null,null,null,"_id");
+                new String[]{"_id","name_alarm","datetime","stop_type","alarm_size","url_sound","used"},null,null,null,null,"_id");
         while (cursor.moveToNext()){
             rec.add(new AlarmModel(
                     cursor.getInt(cursor.getColumnIndex("_id")),
@@ -59,7 +60,7 @@ public class DBConnect {
                     cursor.getInt(cursor.getColumnIndex("alarm_size")),
                     cursor.getInt(cursor.getColumnIndex("stop_type")),
                     cursor.getString(cursor.getColumnIndex("url_sound")),
-                    true
+                    (cursor.getInt(cursor.getColumnIndex("used")) == 0 ? true:false)
             ));
         }
         close();
@@ -69,7 +70,7 @@ public class DBConnect {
     public AlarmModel getOneAlarmRec(int id){
         open();
         Cursor cursor = database.query(DBHelper.ALARM_TABLE,
-                new String[]{"_id","name_alarm","datetime","stop_type","alarm_size","url_sound"},"_id="+id,null,null,null,"_id");
+                new String[]{"_id","name_alarm","datetime","stop_type","alarm_size","url_sound","used"},"_id="+id,null,null,null,"_id");
         cursor.moveToFirst();
         AlarmModel rec = new AlarmModel(
                 cursor.getInt(cursor.getColumnIndex("_id")),
@@ -78,10 +79,18 @@ public class DBConnect {
                 cursor.getInt(cursor.getColumnIndex("alarm_size")),
                 cursor.getInt(cursor.getColumnIndex("stop_type")),
                 cursor.getString(cursor.getColumnIndex("url_sound")),
-                true
+                (cursor.getInt(cursor.getColumnIndex("used")) == 0 ? true:false)
         );
         close();
         return rec;
+    }
+
+    public void setStopUser(int id,boolean flg){
+        open();
+        ContentValues values = new ContentValues();
+        values.put("used",(flg ? 0 : 1));
+        database.update(DBHelper.ALARM_TABLE,values,"_id="+id,null);
+        close();
     }
 
 }
