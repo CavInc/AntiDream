@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cav.antidream.ui.MainActivity">
+    <RelativeLayout
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/main_time"
+            android:text="15:00"
+            android:textSize="52sp"
+            android:textStyle="bold"
+            android:fontFamily="monospace"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:id="@+id/main_date"
+            android:textStyle="bold"
+            android:text="ср, 3 мая"
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/main_time"
+            android:layout_alignRight="@+id/main_time"
+            android:layout_alignEnd="@+id/main_time"/>
+
+    </RelativeLayout>
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fab_menu"
+        android:layout_gravity="end|bottom"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        fab:fab_showShadow="true"
+        fab:menu_labels_colorNormal="#333333"
+        fab:menu_labels_colorPressed="#444444"
+        fab:menu_labels_colorRipple="#66FFFFFF"
+        fab:menu_labels_showShadow="true"
+        fab:menu_labels_maxLines="-1"
+        fab:menu_labels_position="left"
+        fab:menu_labels_cornerRadius="3dp"
+        fab:menu_shadowColor="#66000000"
+        fab:menu_shadowRadius="4dp"
+        fab:menu_shadowXOffset="1dp"
+        fab:menu_shadowYOffset="3dp"
+        fab:menu_openDirection="up"
+        fab:menu_icon="@drawable/ic_alarm_black_24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/add_alarm"
+            android:src="@drawable/ic_add_black_24dp"
+            fab:fab_label="Добавить будильник"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/history_alarm"
+            fab:fab_label="Будильники"
+            android:src="@drawable/ic_assignment_black_24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/exit"
+            android:src="@drawable/ic_exit_to_app_black_24dp"
+            fab:fab_label="Выход"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+</android.support.design.widget.CoordinatorLayout>
