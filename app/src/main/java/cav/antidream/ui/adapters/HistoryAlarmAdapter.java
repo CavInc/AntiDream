@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ public class HistoryAlarmAdapter extends ArrayAdapter<AlarmModel> {
             holder.mDateTime = (TextView) row.findViewById(R.id.item_datetime);
             holder.mTitle = (TextView) row.findViewById(R.id.item_title);
             holder.mStatus = (TextView) row.findViewById(R.id.item_mode);
+            holder.mSwitch = (Switch) row.findViewById(R.id.switch1);
             row.setTag(holder);
         } else {
             holder = (ViewHolder)row.getTag();
@@ -52,6 +54,7 @@ public class HistoryAlarmAdapter extends ArrayAdapter<AlarmModel> {
         holder.mTitle.setText(record.getAlarmName());
         holder.mDateTime.setText(Utils.dateToStr("HH:mm  EEE, dd MMM",record.getAlarmDate()));
         holder.mStatus.setText((record.isUsed() ? "Открыто":"Закрыто"));
+        holder.mSwitch.setChecked(record.isUsed());
         return row;
 
     }
@@ -65,5 +68,6 @@ public class HistoryAlarmAdapter extends ArrayAdapter<AlarmModel> {
         public TextView mDateTime;
         public TextView mTitle;
         public TextView mStatus;
+        public Switch mSwitch;
     }
 }
