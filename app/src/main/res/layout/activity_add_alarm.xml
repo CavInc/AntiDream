@@ -40,6 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:id="@+id/select_sound"
             android:text="Выберите мелодию: "
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

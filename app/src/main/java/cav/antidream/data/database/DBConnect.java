@@ -39,6 +39,7 @@ public class DBConnect {
         values.put("stop_type",data.getAlarmStopType());
         values.put("datetime", Utils.dateToStr("yyyy-MM-dd HH:mm",data.getAlarmDate()));
         values.put("alarm_size",data.getAlarmSize());
+        values.put("url_sound",data.getAlarmUrlMelodu());
         int rec_id = (int) database.insert(DBHelper.ALARM_TABLE,null,values);
         close();
         return rec_id;
@@ -49,7 +50,7 @@ public class DBConnect {
         ArrayList<AlarmModel> rec = new ArrayList<>();
         open();
         Cursor cursor = database.query(DBHelper.ALARM_TABLE,
-                new String[]{"_id","name_alarm","datetime","stop_type","alarm_size"},null,null,null,null,"_id");
+                new String[]{"_id","name_alarm","datetime","stop_type","alarm_size","url_sound"},null,null,null,null,"_id");
         while (cursor.moveToNext()){
             rec.add(new AlarmModel(
                     cursor.getInt(cursor.getColumnIndex("_id")),
@@ -57,7 +58,7 @@ public class DBConnect {
                     Utils.StrToDate("yyyy-MM-dd HH:mm",cursor.getString(cursor.getColumnIndex("datetime"))),
                     cursor.getInt(cursor.getColumnIndex("alarm_size")),
                     cursor.getInt(cursor.getColumnIndex("stop_type")),
-                    "",
+                    cursor.getString(cursor.getColumnIndex("url_sound")),
                     true
             ));
         }
@@ -68,7 +69,7 @@ public class DBConnect {
     public AlarmModel getOneAlarmRec(int id){
         open();
         Cursor cursor = database.query(DBHelper.ALARM_TABLE,
-                new String[]{"_id","name_alarm","datetime","stop_type","alarm_size"},"_id="+id,null,null,null,"_id");
+                new String[]{"_id","name_alarm","datetime","stop_type","alarm_size","url_sound"},"_id="+id,null,null,null,"_id");
         cursor.moveToFirst();
         AlarmModel rec = new AlarmModel(
                 cursor.getInt(cursor.getColumnIndex("_id")),
@@ -76,7 +77,7 @@ public class DBConnect {
                 Utils.StrToDate("yyyy-MM-dd HH:mm", cursor.getString(cursor.getColumnIndex("datetime"))),
                 cursor.getInt(cursor.getColumnIndex("alarm_size")),
                 cursor.getInt(cursor.getColumnIndex("stop_type")),
-                "",
+                cursor.getString(cursor.getColumnIndex("url_sound")),
                 true
         );
         close();

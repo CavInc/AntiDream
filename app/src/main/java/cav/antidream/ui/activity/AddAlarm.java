@@ -7,11 +7,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
@@ -21,16 +23,19 @@ import java.util.GregorianCalendar;
 import cav.antidream.R;
 import cav.antidream.data.database.DBConnect;
 import cav.antidream.data.models.AlarmModel;
+import cav.antidream.ui.SelectSoundAlarmDialog;
 import cav.antidream.utils.ConstantManager;
 import cav.antidream.utils.Utils;
 
-public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener{
+public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener,View.OnClickListener{
 
     private TimePicker mTime;
     private DatePicker mDate;
     private EditText mNameAlarm;
     private Spinner mAlarmStopTypeSpinner;
     private SeekBar mSeekBar;
+
+    private TextView mSetSound;
 
     private int alarmSize = 3;
 
@@ -42,6 +47,9 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
 
         mTime = (TimePicker) findViewById(R.id.timePicker);
         mDate = (DatePicker) findViewById(R.id.datePicker);
+
+        mSetSound = (TextView) findViewById(R.id.select_sound);
+        mSetSound.setOnClickListener(this);
 
         mNameAlarm = (EditText) findViewById(R.id.alarm_name);
 
@@ -107,7 +115,7 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
         int id = (int) mAlarmStopTypeSpinner.getSelectedItemId();
 
         AlarmModel data = new AlarmModel(mNameAlarm.getText().toString()
-                ,date,alarmSize,id,"");
+                ,date,alarmSize,id,urlSound);
 
         DBConnect db = new DBConnect(this);
         int rec_id = db.storeAlarm(data);
@@ -132,4 +140,22 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
     public void onStopTrackingTouch(SeekBar seekBar) {
 
     }
+
+    @Override
+    public void onClick(View view) {
+        SelectSoundAlarmDialog dialog = new SelectSoundAlarmDialog();
+        dialog.setOnSoundChangeListener(mSoundChangeListener);
+        dialog.show(getSupportFragmentManager(),"SQ");
+    }
+
+    private String urlSound;
+
+    SelectSoundAlarmDialog.OnSoundChangeListener mSoundChangeListener = new SelectSoundAlarmDialog.OnSoundChangeListener() {
+        @Override
+        public void onSoundChange(String title, String url) {
+            mSetSound.setText("Выберите мелодию: "+ title);
+            urlSound = url;
+        }
+    };
+
 }

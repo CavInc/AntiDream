@@ -35,6 +35,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     "datetime text," +
                     "stop_type integer," +
                     "alarm_size integer," +
+                    "url_sound text," +
                     "used integer)");
         }
     }
