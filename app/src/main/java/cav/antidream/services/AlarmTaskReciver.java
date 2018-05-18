@@ -11,7 +11,10 @@ import android.os.Build;
 import cav.antidream.R;
 import cav.antidream.data.database.DBConnect;
 import cav.antidream.data.models.AlarmModel;
+import cav.antidream.ui.activity.AlarmSignalActivity;
 import cav.antidream.utils.ConstantManager;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class AlarmTaskReciver extends BroadcastReceiver {
 
@@ -24,7 +27,8 @@ public class AlarmTaskReciver extends BroadcastReceiver {
         mContext = context;
         mId = intent.getIntExtra(ConstantManager.ALARM_ID,-1);
         getModel();
-        showNotification(mContext);
+        //showNotification(mContext);
+        startAlarm();
     }
 
     private void getModel(){
@@ -61,5 +65,15 @@ public class AlarmTaskReciver extends BroadcastReceiver {
 
         notificationManager.notify(ConstantManager.NOTIFY_ID+mId, notification);
 
+    }
+
+    private void startAlarm(){
+        Intent intent = new Intent(mContext, AlarmSignalActivity.class);
+        intent.putExtra("URL_SOUND",mModel.getAlarmUrlMelodu());
+        intent.putExtra("TYPE_ALARM",mModel.getAlarmStopType());
+        intent.putExtra("SIZE_ALARM",mModel.getAlarmSize());
+        intent.putExtra("ALARM_ID",mModel.getId());
+        intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(intent);
     }
 }

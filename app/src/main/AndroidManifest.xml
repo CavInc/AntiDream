@@ -32,6 +32,13 @@
             android:enabled="true"
             android:exported="true">
         </receiver>
+
+        <activity android:name=".ui.activity.AlarmSignalActivity"
+                  android:launchMode="singleTop"
+                  android:showOnLockScreen="true"
+            android:screenOrientation="portrait"
+                  android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
