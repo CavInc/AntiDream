@@ -24,14 +24,17 @@
         android:text="Выберите день:"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <DatePicker
-        android:id="@+id/datePicker"
-        android:datePickerMode="spinner"
-        android:calendarViewShown="false"
-        android:layout_marginBottom="8dp"
+
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+        android:id="@+id/data_calendar"
         android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="140dp"/>
+        app:mcv_calendarMode="week"
+        app:mcv_dateTextAppearance="@style/CustomTextAppearance"
+        app:mcv_selectionColor="?attr/colorAccent"
+        app:mcv_showOtherDates="out_of_range"
+        android:layout_width="match_parent"
+        android:layout_height="170dp">
+    </com.prolificinteractive.materialcalendarview.MaterialCalendarView>
 
     <LinearLayout
         android:orientation="horizontal"

@@ -16,6 +16,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -35,6 +38,8 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
     private Spinner mAlarmStopTypeSpinner;
     private SeekBar mSeekBar;
 
+    private MaterialCalendarView mCalendarView;
+
     private TextView mSetSound;
 
     private int alarmSize = 3;
@@ -46,7 +51,7 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
         setContentView(R.layout.activity_add_alarm);
 
         mTime = (TimePicker) findViewById(R.id.timePicker);
-        mDate = (DatePicker) findViewById(R.id.datePicker);
+        //mDate = (DatePicker) findViewById(R.id.datePicker);
 
         mSetSound = (TextView) findViewById(R.id.select_sound);
         mSetSound.setOnClickListener(this);
@@ -58,6 +63,19 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
 
         mTime.setIs24HourView(true);
         mTime.setCurrentHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+
+        Calendar newYear = Calendar.getInstance();
+        newYear.add(Calendar.YEAR, 1);
+        mCalendarView = (MaterialCalendarView) findViewById(R.id.data_calendar);
+
+        mCalendarView.state().edit()
+                .setFirstDayOfWeek(Calendar.MONDAY)
+                .setMinimumDate(CalendarDay.from(2016,12,31))
+                .setMaximumDate(newYear)
+                .commit();
+        mCalendarView.setCurrentDate(new Date());
+        mCalendarView.setDateSelected(new Date(),true);
+
 
         ArrayAdapter<String> stopTypeAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, ConstantManager.ALARM_STOP_TYPE);
@@ -106,9 +124,16 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
             m = mTime.getCurrentMinute();
         }
 
+        CalendarDay cd = mCalendarView.getSelectedDate();
+        int year = cd.getYear();
+        int day = cd.getDay();
+        int month = cd.getMonth();
+
+        /*
         int day = mDate.getDayOfMonth();
         int month = mDate.getMonth();
         int year = mDate.getYear();
+        */
 
         Date date = new GregorianCalendar(year,month,day,h,m).getTime();
 
