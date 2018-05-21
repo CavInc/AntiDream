@@ -18,9 +18,9 @@
         <TextView
             android:id="@+id/main_time"
             android:text="15:00"
-            android:shadowRadius="20"
-            android:shadowDx="1"
-            android:shadowDy="1"
+            android:shadowRadius="25"
+            android:shadowDx="1.5"
+            android:shadowDy="1.5"
             android:shadowColor="#ffffff"
             android:textSize="56sp"
             android:textStyle="bold"
