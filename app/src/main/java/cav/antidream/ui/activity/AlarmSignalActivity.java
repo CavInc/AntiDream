@@ -15,6 +15,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +33,8 @@ import cav.antidream.data.database.DBConnect;
 import cav.antidream.utils.ConstantManager;
 import cav.antidream.utils.Utils;
 
-public class AlarmSignalActivity extends AppCompatActivity {
+public class AlarmSignalActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final int MAX = 3;
     private TextView mTime;
     private TextView mDate;
 
@@ -43,6 +46,13 @@ public class AlarmSignalActivity extends AppCompatActivity {
     private MediaPlayer mMediaPlayer;
     private PowerManager.WakeLock fullWakeLock;
     private PowerManager.WakeLock partialWakeLock;
+
+    private ImageView mImg1;
+    private ImageView mImg2;
+    private ImageView mImg3;
+
+    private int falseCount = 4;// количество неверных попыток
+    private int usedStakan; // стакан под которым отключалка
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,20 +102,43 @@ public class AlarmSignalActivity extends AppCompatActivity {
         enableButton.setOnActiveListener(new OnActiveListener() {
             @Override
             public void onActive() {
-                Toast.makeText(AlarmSignalActivity.this, "Active!", Toast.LENGTH_SHORT).show();
-                try {
-                    TimeUnit.SECONDS.sleep(1L);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                stopMusic();
-                finish();
+                //Toast.makeText(AlarmSignalActivity.this, "Active!", Toast.LENGTH_SHORT).show();
+                closeDelay();
             }
         });
+
+        LinearLayout ll = (LinearLayout) findViewById(R.id.game_ll);
+
+        mImg1 = (ImageView) findViewById(R.id.game_im1);
+        mImg2 = (ImageView) findViewById(R.id.game_im2);
+        mImg3 = (ImageView) findViewById(R.id.game_im3);
+
+        mImg1.setOnClickListener(this);
+        mImg2.setOnClickListener(this);
+        mImg3.setOnClickListener(this);
+
+        switch (alarm_type) {
+            case ConstantManager.ALARM_STOP_KEY:
+                enableButton.setEnabled(false);
+                ll.setVisibility(View.GONE);
+                break;
+            case ConstantManager.ALARM_STOP_SLIDE:
+                enableButton.setVisibility(View.VISIBLE);
+                ll.setVisibility(View.GONE);
+                break;
+            case ConstantManager.ALARM_STOP_GAME:
+                enableButton.setVisibility(View.GONE);
+                ll.setVisibility(View.VISIBLE);
+                break;
+        }
+
 
         mMediaPlayer = new MediaPlayer();
         mMediaPlayer.setOnCompletionListener(mCompletionListener);
         //wakeUp();
+
+        usedStakan = (int) (Math.random() * MAX)+1;
+
     }
 
     @Override
@@ -128,6 +161,15 @@ public class AlarmSignalActivity extends AppCompatActivity {
         stopMusic();
     }
 
+    private void closeDelay(){
+        stopMusic();
+        try {
+            TimeUnit.SECONDS.sleep(1L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        finish();
+    }
 
     private void startMusic(){
         if (urlSound!=null && urlSound.length()!=0) {
@@ -247,4 +289,32 @@ public class AlarmSignalActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onClick(View view) {
+        int selImg = -1;
+        switch (view.getId()){
+            case R.id.game_im1:
+                selImg = 1;
+                break;
+            case R.id.game_im2:
+                selImg = 2;
+                break;
+            case R.id.game_im3:
+                selImg = 3;
+                break;
+        }
+        if (usedStakan == selImg) {
+            ((TextView) findViewById(R.id.game_status)).setText("Вы угадали");
+            closeDelay();
+        } else {
+            ((TextView) findViewById(R.id.game_status)).setText("Вы не угадали !");
+            falseCount -=1;
+            if (falseCount == 0 ){
+                closeDelay();
+            }
+            // тут дожна быть задежка со счетчиком
+
+        }
+
+    }
 }
