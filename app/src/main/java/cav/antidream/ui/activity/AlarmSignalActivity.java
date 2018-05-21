@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.PersistableBundle;
 import android.os.PowerManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,6 +38,7 @@ public class AlarmSignalActivity extends AppCompatActivity {
     private MediaPlayer mMediaPlayer;
     private PowerManager.WakeLock fullWakeLock;
     private PowerManager.WakeLock partialWakeLock;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class AlarmSignalActivity extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+
         //getWindow().setFlags(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
         if (Build.VERSION.SDK_INT >=Build.VERSION_CODES.KITKAT) {
                 //mDecorView = getWindow().getDecorView();
@@ -61,6 +64,9 @@ public class AlarmSignalActivity extends AppCompatActivity {
 
         mDate = (TextView) findViewById(R.id.main_date);
         mTime = (TextView) findViewById(R.id.main_time);
+
+        fab = (FloatingActionButton) findViewById(R.id.stop_alarm);
+        fab.setOnTouchListener(mOnTouchListener);
 
         mDate.setText(Utils.dateToStr("EEE, dd MMM",new Date()));
         mTime.setText(Utils.dateToStr("HH:mm",new Date()));
