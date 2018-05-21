@@ -87,7 +87,7 @@
             android:gravity="center"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:textColor="#32e7ed"
+            android:textColor="#7d32ed"
             android:layout_marginBottom="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

@@ -288,6 +288,7 @@ public class AlarmSignalActivity extends AppCompatActivity implements View.OnCli
         return super.onKeyDown(keyCode, event);
     }
 
+    private int timerCount = 5;
 
     @Override
     public void onClick(View view) {
