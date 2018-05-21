@@ -2,6 +2,7 @@ package cav.antidream.ui.views;
 
 // честно спижено отсюда
 // https://android-tools.ru/coding/otlichnyj-android-ux-kak-sdelat-knopku-svajpa-swipe-button/
+// разобраться или удальть к хуям
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

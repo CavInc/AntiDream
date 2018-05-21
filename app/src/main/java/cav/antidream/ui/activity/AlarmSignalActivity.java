@@ -65,8 +65,6 @@ public class AlarmSignalActivity extends AppCompatActivity {
         mDate = (TextView) findViewById(R.id.main_date);
         mTime = (TextView) findViewById(R.id.main_time);
 
-        fab = (FloatingActionButton) findViewById(R.id.stop_alarm);
-        fab.setOnTouchListener(mOnTouchListener);
 
         mDate.setText(Utils.dateToStr("EEE, dd MMM",new Date()));
         mTime.setText(Utils.dateToStr("HH:mm",new Date()));
@@ -93,7 +91,7 @@ public class AlarmSignalActivity extends AppCompatActivity {
         DBConnect dbConnect = new DBConnect(this);
         dbConnect.setStopUser(alarm_id,false);
 
-        startMusic();
+       // startMusic();
     }
 
     @Override
