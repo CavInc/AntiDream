@@ -47,7 +47,7 @@ public class AlarmSignalActivity extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        getWindow().setFlags(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+        //getWindow().setFlags(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
         if (Build.VERSION.SDK_INT >=Build.VERSION_CODES.KITKAT) {
                 //mDecorView = getWindow().getDecorView();
                 //hideSystemUI();
@@ -143,8 +143,8 @@ public class AlarmSignalActivity extends AppCompatActivity {
     View.OnTouchListener mOnTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent event) {
-            x = event.getX();
-            y = event.getY();
+            float x = event.getX();
+            float y = event.getY();
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN: // нажатие
                     break;
