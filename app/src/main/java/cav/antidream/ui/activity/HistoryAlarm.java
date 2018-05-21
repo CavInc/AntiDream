@@ -1,11 +1,13 @@
 package cav.antidream.ui.activity;
 
+import android.app.Dialog;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ import cav.antidream.data.database.DBConnect;
 import cav.antidream.data.models.AlarmModel;
 import cav.antidream.ui.adapters.HistoryAlarmAdapter;
 
-public class HistoryAlarm extends AppCompatActivity implements AdapterView.OnItemLongClickListener {
+public class HistoryAlarm extends AppCompatActivity implements AdapterView.OnItemLongClickListener,View.OnClickListener {
     private ListView mListView;
 
     private HistoryAlarmAdapter mAdapter;
@@ -65,10 +67,29 @@ public class HistoryAlarm extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
+    private int selectID = -1;
+
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
          // TODO показывать что надо редактировать или удалить
+        AlarmModel rec = (AlarmModel) adapterView.getItemAtPosition(position);
+        selectID = rec.getId();
+
+        Dialog dialog = new Dialog(this);
+        dialog.setTitle("Действие над будильником");
+        dialog.setContentView(R.layout.dialog_history_item);
+
+        LinearLayout mEditLayout = (LinearLayout) dialog.findViewById(R.id.edit_laout);
+        LinearLayout mDelLayout = (LinearLayout) dialog.findViewById(R.id.del_laout);
+        mEditLayout.setOnClickListener(this);
+        mDelLayout.setOnClickListener(this);
+        dialog.show();
 
         return false;
+    }
+
+    @Override
+    public void onClick(View view) {
+
     }
 }

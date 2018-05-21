@@ -93,4 +93,10 @@ public class DBConnect {
         close();
     }
 
+    public void delAlarm(int id){
+        open();
+        database.delete(DBHelper.ALARM_TABLE,"_id="+id,null);
+        close();
+    }
+
 }
