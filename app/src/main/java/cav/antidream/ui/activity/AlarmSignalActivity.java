@@ -9,6 +9,8 @@ import android.os.PowerManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -20,6 +22,7 @@ import java.util.Date;
 
 import cav.antidream.R;
 import cav.antidream.data.database.DBConnect;
+import cav.antidream.utils.ConstantManager;
 import cav.antidream.utils.Utils;
 
 public class AlarmSignalActivity extends AppCompatActivity {
@@ -132,6 +135,13 @@ public class AlarmSignalActivity extends AppCompatActivity {
         }
     };
 
+    @Override
+    public void onBackPressed() {
+        if (alarm_type == ConstantManager.ALARM_STOP_KEY) {
+            super.onBackPressed();
+        }
+    }
+
     // экран
     //http://android.okhelp.cz/turn-screen-on-off-android-sample-code/
     //https://habr.com/company/appsministry/blog/168573/
@@ -192,4 +202,16 @@ public class AlarmSignalActivity extends AppCompatActivity {
         }
 
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.i("KEY CODE ","PRESSED KEY - "+keyCode);
+        if (alarm_type == ConstantManager.ALARM_STOP_KEY) {
+            finish();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+
 }
