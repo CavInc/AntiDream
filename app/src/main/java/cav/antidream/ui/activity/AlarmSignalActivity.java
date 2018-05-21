@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.PersistableBundle;
 import android.os.PowerManager;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,9 +16,15 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.ebanx.swipebtn.OnActiveListener;
+import com.ebanx.swipebtn.OnStateChangeListener;
+import com.ebanx.swipebtn.SwipeButton;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import cav.antidream.R;
 import cav.antidream.data.database.DBConnect;
@@ -38,7 +43,6 @@ public class AlarmSignalActivity extends AppCompatActivity {
     private MediaPlayer mMediaPlayer;
     private PowerManager.WakeLock fullWakeLock;
     private PowerManager.WakeLock partialWakeLock;
-    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +78,31 @@ public class AlarmSignalActivity extends AppCompatActivity {
         alarm_type = getIntent().getIntExtra("TYPE_ALARM", -1);
         alarm_size = getIntent().getIntExtra("SIZE_ALARM",0);
 
+        SwipeButton enableButton = (SwipeButton) findViewById(R.id.stop_alarm);
+
+        /*
+        enableButton.setOnStateChangeListener(new OnStateChangeListener() {
+            @Override
+            public void onStateChange(boolean active) {
+                Toast.makeText(AlarmSignalActivity.this, "State: " + active, Toast.LENGTH_SHORT).show();
+            }
+        });
+        */
+
+        enableButton.setOnActiveListener(new OnActiveListener() {
+            @Override
+            public void onActive() {
+                Toast.makeText(AlarmSignalActivity.this, "Active!", Toast.LENGTH_SHORT).show();
+                try {
+                    TimeUnit.SECONDS.sleep(1L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                stopMusic();
+                finish();
+            }
+        });
+
         mMediaPlayer = new MediaPlayer();
         mMediaPlayer.setOnCompletionListener(mCompletionListener);
         //wakeUp();
@@ -90,8 +119,7 @@ public class AlarmSignalActivity extends AppCompatActivity {
         super.onResume();
         DBConnect dbConnect = new DBConnect(this);
         dbConnect.setStopUser(alarm_id,false);
-
-       // startMusic();
+        startMusic();
     }
 
     @Override
@@ -99,6 +127,7 @@ public class AlarmSignalActivity extends AppCompatActivity {
         super.onDestroy();
         stopMusic();
     }
+
 
     private void startMusic(){
         if (urlSound!=null && urlSound.length()!=0) {
