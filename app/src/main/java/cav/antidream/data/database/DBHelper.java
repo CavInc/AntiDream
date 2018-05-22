@@ -36,6 +36,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     "stop_type integer," +
                     "alarm_size integer," +
                     "url_sound text," +
+                    "alarm_volume integer," + // громкость
                     "used integer)");
         }
     }

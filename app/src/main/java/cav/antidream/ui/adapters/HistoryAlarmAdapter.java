@@ -74,8 +74,15 @@ public class HistoryAlarmAdapter extends ArrayAdapter<AlarmModel> {
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
             Log.d("HAD","Statr : "+b);
+            if (mHistoryAlarmCheckChange != null){
+                mHistoryAlarmCheckChange.CheckChange(b);
+            }
         }
     };
+
+    public void setHistoryAlarmCheckChange(HistoryAlarmCheckChange historyAlarmCheckChange) {
+        mHistoryAlarmCheckChange = historyAlarmCheckChange;
+    }
 
     public interface HistoryAlarmCheckChange {
         public void CheckChange(boolean mode);

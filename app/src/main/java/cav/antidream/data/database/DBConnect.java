@@ -40,6 +40,7 @@ public class DBConnect {
         values.put("datetime", Utils.dateToStr("yyyy-MM-dd HH:mm",data.getAlarmDate()));
         values.put("alarm_size",data.getAlarmSize());
         values.put("url_sound",data.getAlarmUrlMelodu());
+        values.put("alarm_volume",data.getAlarmVolume());
         values.put("used",0);
         int rec_id = (int) database.insert(DBHelper.ALARM_TABLE,null,values);
         close();
@@ -51,7 +52,7 @@ public class DBConnect {
         ArrayList<AlarmModel> rec = new ArrayList<>();
         open();
         Cursor cursor = database.query(DBHelper.ALARM_TABLE,
-                new String[]{"_id","name_alarm","datetime","stop_type","alarm_size","url_sound","used"},null,null,null,null,"_id");
+                new String[]{"_id","name_alarm","datetime","stop_type","alarm_size","url_sound","used","alarm_volume"},null,null,null,null,"_id");
         while (cursor.moveToNext()){
             rec.add(new AlarmModel(
                     cursor.getInt(cursor.getColumnIndex("_id")),
@@ -60,6 +61,7 @@ public class DBConnect {
                     cursor.getInt(cursor.getColumnIndex("alarm_size")),
                     cursor.getInt(cursor.getColumnIndex("stop_type")),
                     cursor.getString(cursor.getColumnIndex("url_sound")),
+                    cursor.getInt(cursor.getColumnIndex("alarm_volume")),
                     (cursor.getInt(cursor.getColumnIndex("used")) == 0 ? true:false)
             ));
         }
@@ -70,7 +72,7 @@ public class DBConnect {
     public AlarmModel getOneAlarmRec(int id){
         open();
         Cursor cursor = database.query(DBHelper.ALARM_TABLE,
-                new String[]{"_id","name_alarm","datetime","stop_type","alarm_size","url_sound","used"},"_id="+id,null,null,null,"_id");
+                new String[]{"_id","name_alarm","datetime","stop_type","alarm_size","url_sound","used","alarm_volume"},"_id="+id,null,null,null,"_id");
         cursor.moveToFirst();
         AlarmModel rec = new AlarmModel(
                 cursor.getInt(cursor.getColumnIndex("_id")),
@@ -79,6 +81,7 @@ public class DBConnect {
                 cursor.getInt(cursor.getColumnIndex("alarm_size")),
                 cursor.getInt(cursor.getColumnIndex("stop_type")),
                 cursor.getString(cursor.getColumnIndex("url_sound")),
+                cursor.getInt(cursor.getColumnIndex("alarm_volume")),
                 (cursor.getInt(cursor.getColumnIndex("used")) == 0 ? true:false)
         );
         close();

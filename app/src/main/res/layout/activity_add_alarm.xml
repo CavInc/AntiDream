@@ -9,86 +9,111 @@
     android:orientation="vertical"
     tools:context="cav.antidream.ui.activity.AddAlarm">
 
-    <TextView
-        android:text="Выберите время:"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TimePicker
-        android:id="@+id/timePicker"
-        android:timePickerMode="spinner"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="140dp"/>
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:text="Выберите время:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TimePicker
+                android:id="@+id/timePicker"
+                android:timePickerMode="spinner"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="140dp"/>
 
-    <TextView
-        android:text="Выберите день:"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+            <TextView
+                android:text="Выберите день:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-        android:id="@+id/data_calendar"
-        android:layout_gravity="center_horizontal"
-        app:mcv_calendarMode="week"
-        app:mcv_dateTextAppearance="@style/CustomTextAppearance"
-        app:mcv_selectionColor="?attr/colorAccent"
-        app:mcv_showOtherDates="out_of_range"
-        android:layout_width="match_parent"
-        android:layout_height="170dp">
-    </com.prolificinteractive.materialcalendarview.MaterialCalendarView>
+            <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                android:id="@+id/data_calendar"
+                android:layout_gravity="center_horizontal"
+                app:mcv_calendarMode="week"
+                app:mcv_dateTextAppearance="@style/CustomTextAppearance"
+                app:mcv_selectionColor="?attr/colorAccent"
+                app:mcv_showOtherDates="out_of_range"
+                android:layout_width="match_parent"
+                android:layout_height="170dp">
+            </com.prolificinteractive.materialcalendarview.MaterialCalendarView>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_marginBottom="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/select_sound"
-            android:text="Выберите мелодию: "
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-    <TextView
-        android:text="Продолжительность сигнала"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <SeekBar
-        android:id="@+id/seekBar"
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:indeterminate="false"
-        android:max="10"
-        android:progress="3"/>
-    <LinearLayout
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_weight="1"
-            android:text="Отключить будильник: "
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <Spinner
-            android:id="@+id/alarm_stop_type"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="Имя сигнала:"
-            android:layout_weight="2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <EditText
-            android:id="@+id/alarm_name"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/select_sound"
+                    android:text="Выберите мелодию: "
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <TextView
+                android:text="Продолжительность сигнала"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <SeekBar
+                android:id="@+id/seekBar"
+                style="@style/Widget.AppCompat.SeekBar.Discrete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="false"
+                android:max="10"
+                android:progress="3"/>
+            <LinearLayout
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="Громкость звонка"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <SeekBar
+                    android:id="@+id/volime_seek"
+                     android:max="100"
+                    android:progress="90"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_weight="1"
+                    android:text="Отключить будильник: "
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <Spinner
+                    android:id="@+id/alarm_stop_type"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="Имя сигнала:"
+                    android:layout_weight="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <EditText
+                    android:id="@+id/alarm_name"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
-    </LinearLayout>
 </LinearLayout>

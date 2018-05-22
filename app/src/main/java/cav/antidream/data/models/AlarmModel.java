@@ -14,6 +14,7 @@ public class AlarmModel {
     private int mAlarmSize; // продолжительность сигнала
     private int mAlarmStopType; // Отключение будильника
     private String mAlarmUrlMelodu; // мелодия будильника
+    private int mAlarmVolume; // гормкость
     private boolean mUsed; // в работе
 
     public AlarmModel(int id, String alarmName, Date alarmDate, int alarmSize, int alarmStopType, String alarmUrlMelodu, boolean used) {
@@ -41,6 +42,17 @@ public class AlarmModel {
         mAlarmSize = alarmSize;
         mAlarmStopType = alarmStopType;
         mAlarmUrlMelodu = alarmUrlMelodu;
+        mUsed = used;
+    }
+
+    public AlarmModel(int id, String alarmName, Date alarmDate, int alarmSize, int alarmStopType, String alarmUrlMelodu, int alarmVolume, boolean used) {
+        mId = id;
+        mAlarmName = alarmName;
+        mAlarmDate = alarmDate;
+        mAlarmSize = alarmSize;
+        mAlarmStopType = alarmStopType;
+        mAlarmUrlMelodu = alarmUrlMelodu;
+        mAlarmVolume = alarmVolume;
         mUsed = used;
     }
 
@@ -74,5 +86,9 @@ public class AlarmModel {
 
     public boolean isUsed() {
         return mUsed;
+    }
+
+    public int getAlarmVolume() {
+        return mAlarmVolume;
     }
 }
