@@ -53,6 +53,7 @@ public class AlarmSignalActivity extends AppCompatActivity implements View.OnCli
 
     private int falseCount = 4;// количество неверных попыток
     private int usedStakan; // стакан под которым отключалка
+    private LinearLayout ll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +108,7 @@ public class AlarmSignalActivity extends AppCompatActivity implements View.OnCli
             }
         });
 
-        LinearLayout ll = (LinearLayout) findViewById(R.id.game_ll);
+       ll = (LinearLayout) findViewById(R.id.game_ll);
 
         mImg1 = (ImageView) findViewById(R.id.game_im1);
         mImg2 = (ImageView) findViewById(R.id.game_im2);
@@ -242,41 +243,6 @@ public class AlarmSignalActivity extends AppCompatActivity implements View.OnCli
         }
     };
 
-    // Called from onCreate
-    // protected void createWakeLocks(){
-    // PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-    // fullWakeLock = powerManager.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "Loneworker - FULL WAKE LOCK");
-    // partialWakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Loneworker - PARTIAL WAKE LOCK"); }
-
-    // Called implicitly when device is about to sleep or application is backgrounded
-    // protected void onPause(){
-    // super.onPause();
-    // partialWakeLock.acquire(); }
-
-    // Called implicitly when device is about to wake up or foregrounded
-    // protected void onResume(){
-    // super.onResume();
-    // if(fullWakeLock.isHeld()){
-    // fullWakeLock.release(); }
-    // if(partialWakeLock.isHeld())
-    // { partialWakeLock.release(); } }
-
-    // Called whenever we need to wake up the device
-    // public void wakeDevice() {
-    // fullWakeLock.acquire();
-    // KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
-    // KeyguardLock keyguardLock = keyguardManager.newKeyguardLock("TAG"); keyguardLock.disableKeyguard(); }
-
-    // будим устройство
-    private void wakeUp(){
-        PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        fullWakeLock = powerManager.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP),"ALARM");
-        partialWakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "ALARM - PARTIAL WAKE LOCK");
-        if (fullWakeLock.isHeld()) {
-            fullWakeLock.release();
-        }
-
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -289,9 +255,11 @@ public class AlarmSignalActivity extends AppCompatActivity implements View.OnCli
     }
 
     private int timerCount = 5;
+    private boolean lock;
 
     @Override
     public void onClick(View view) {
+        if (lock) return;
         int selImg = -1;
         switch (view.getId()){
             case R.id.game_im1:
@@ -314,6 +282,37 @@ public class AlarmSignalActivity extends AppCompatActivity implements View.OnCli
                 closeDelay();
             }
             // тут дожна быть задежка со счетчиком
+            lock = true;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (true){
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ((TextView) findViewById(R.id.game_status)).setText("Вы не угадали ! ожидаем "+timerCount+" сек");
+                            }
+                        });
+                        try {
+                            TimeUnit.SECONDS.sleep(1L);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        timerCount -= 1;
+                        if (timerCount == 0) {
+                            break;
+                        }
+                    }
+                    usedStakan = (int) (Math.random() * MAX)+1;
+                    lock = false;
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((TextView) findViewById(R.id.game_status)).setText("Играем дальше !");
+                        }
+                    });
+                }
+            }).start();
 
         }
 
