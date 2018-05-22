@@ -28,6 +28,7 @@ public class HistoryAlarm extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_history_alarm);
 
         mListView = (ListView) findViewById(R.id.history_list);
+        mListView.setOnItemLongClickListener(this);
 
         setupToolbar();
 
@@ -67,13 +68,13 @@ public class HistoryAlarm extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
-    private int selectID = -1;
+    private AlarmModel selectRec;
 
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
          // TODO показывать что надо редактировать или удалить
         AlarmModel rec = (AlarmModel) adapterView.getItemAtPosition(position);
-        selectID = rec.getId();
+        selectRec = rec;
 
         Dialog dialog = new Dialog(this);
         dialog.setTitle("Действие над будильником");
@@ -90,6 +91,12 @@ public class HistoryAlarm extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onClick(View view) {
+        if (view.getId() == R.id.del_laout) {
+            DBConnect dbConnect = new DBConnect(this);
+            dbConnect.delAlarm(selectRec.getId());
+            mAdapter.remove(selectRec);
+            mAdapter.notifyDataSetChanged();
+        }
 
     }
 }
