@@ -64,6 +64,8 @@ public class HistoryAlarmAdapter extends ArrayAdapter<AlarmModel> {
         this.addAll(model);
     }
 
+
+
     class ViewHolder{
         public TextView mDateTime;
         public TextView mTitle;
