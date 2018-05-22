@@ -4,10 +4,13 @@ import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -25,6 +28,8 @@ import cav.antidream.utils.Utils;
 public class HistoryAlarmAdapter extends ArrayAdapter<AlarmModel> {
     private LayoutInflater mInflater;
     private int resLayout;
+
+    private HistoryAlarmCheckChange mHistoryAlarmCheckChange;
 
 
     public HistoryAlarmAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<AlarmModel> objects) {
@@ -44,7 +49,8 @@ public class HistoryAlarmAdapter extends ArrayAdapter<AlarmModel> {
             holder.mDateTime = (TextView) row.findViewById(R.id.item_datetime);
             holder.mTitle = (TextView) row.findViewById(R.id.item_title);
             holder.mStatus = (TextView) row.findViewById(R.id.item_mode);
-            holder.mSwitch = (Switch) row.findViewById(R.id.switch1);
+            holder.mSwitch = (SwitchCompat) row.findViewById(R.id.switch1);
+            holder.mSwitch.setOnCheckedChangeListener(mChangeListener);
             row.setTag(holder);
         } else {
             holder = (ViewHolder)row.getTag();
@@ -64,12 +70,21 @@ public class HistoryAlarmAdapter extends ArrayAdapter<AlarmModel> {
         this.addAll(model);
     }
 
+    CompoundButton.OnCheckedChangeListener mChangeListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            Log.d("HAD","Statr : "+b);
+        }
+    };
 
+    public interface HistoryAlarmCheckChange {
+        public void CheckChange(boolean mode);
+    }
 
     class ViewHolder{
         public TextView mDateTime;
         public TextView mTitle;
         public TextView mStatus;
-        public Switch mSwitch;
+        public SwitchCompat mSwitch;
     }
 }

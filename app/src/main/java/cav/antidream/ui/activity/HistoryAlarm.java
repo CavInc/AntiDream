@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -70,13 +71,16 @@ public class HistoryAlarm extends AppCompatActivity implements AdapterView.OnIte
 
     private AlarmModel selectRec;
 
+    private Dialog dialog;
+
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+        Log.d("HA","LONG");
          // TODO показывать что надо редактировать или удалить
         AlarmModel rec = (AlarmModel) adapterView.getItemAtPosition(position);
         selectRec = rec;
 
-        Dialog dialog = new Dialog(this);
+        dialog = new Dialog(this);
         dialog.setTitle("Действие над будильником");
         dialog.setContentView(R.layout.dialog_history_item);
 
@@ -96,6 +100,7 @@ public class HistoryAlarm extends AppCompatActivity implements AdapterView.OnIte
             dbConnect.delAlarm(selectRec.getId());
             mAdapter.remove(selectRec);
             mAdapter.notifyDataSetChanged();
+            dialog.dismiss();
         }
 
     }

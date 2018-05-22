@@ -12,6 +12,7 @@
     tools:context="cav.antidream.ui.activity.HistoryAlarm">
     <ListView
         android:id="@+id/history_list"
+        android:choiceMode="multipleChoice"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </ListView>
