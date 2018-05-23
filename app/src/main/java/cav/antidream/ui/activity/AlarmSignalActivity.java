@@ -304,6 +304,7 @@ public class AlarmSignalActivity extends AppCompatActivity implements View.OnCli
                         }
                     }
                     usedStakan = (int) (Math.random() * MAX)+1;
+                    timerCount = 5;
                     lock = false;
                     runOnUiThread(new Runnable() {
                         @Override
