@@ -154,7 +154,7 @@ public class HistoryAlarm extends AppCompatActivity implements AdapterView.OnIte
                 DBConnect dbConnect = new DBConnect(HistoryAlarm.this);
                 dbConnect.setStopUsed(model.getId(),true);
 
-                Toast.makeText(HistoryAlarm.this,"Будильник включен",Toast.LENGTH_LONG);
+                Toast.makeText(HistoryAlarm.this,"Будильник включен",Toast.LENGTH_LONG).show();
             }
         }
     };

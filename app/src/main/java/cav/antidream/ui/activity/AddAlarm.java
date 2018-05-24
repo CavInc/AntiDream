@@ -15,6 +15,7 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
@@ -149,6 +150,7 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
 
         // а тут должны запустить будильник
         Utils.setAlarm(this,data);
+        Toast.makeText(this,"Будильник включен",Toast.LENGTH_LONG).show();
     }
 
     @Override
