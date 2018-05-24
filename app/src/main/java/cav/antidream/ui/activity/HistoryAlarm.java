@@ -62,6 +62,7 @@ public class HistoryAlarm extends AppCompatActivity implements AdapterView.OnIte
         ArrayList<AlarmModel> model = db.getAlarmModel();
         if (mAdapter == null) {
             mAdapter = new HistoryAlarmAdapter(this,R.layout.history_item,model);
+            mAdapter.setHistoryAlarmCheckChange(mAlarmCheckChange);
             mListView.setAdapter(mAdapter);
         } else {
             mAdapter.setData(model);
@@ -102,6 +103,14 @@ public class HistoryAlarm extends AppCompatActivity implements AdapterView.OnIte
             mAdapter.notifyDataSetChanged();
             dialog.dismiss();
         }
-
     }
+
+    HistoryAlarmAdapter.HistoryAlarmCheckChange mAlarmCheckChange = new HistoryAlarmAdapter.HistoryAlarmCheckChange() {
+        @Override
+        public void CheckChange(boolean mode) {
+            if (mode) {
+                // запускаем будильник по новой
+            }
+        }
+    };
 }

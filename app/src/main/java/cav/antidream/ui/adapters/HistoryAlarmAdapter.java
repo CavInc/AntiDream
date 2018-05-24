@@ -58,7 +58,7 @@ public class HistoryAlarmAdapter extends ArrayAdapter<AlarmModel> {
 
         AlarmModel record = getItem(position);
         holder.mTitle.setText(record.getAlarmName());
-        holder.mDateTime.setText(Utils.dateToStr("HH:mm  EEE, dd MMM",record.getAlarmDate()));
+        holder.mDateTime.setText(Utils.dateToStr("HH:mm  EEE,",record.getAlarmDate()));
         holder.mStatus.setText((record.isUsed() ? "Открыто":"Закрыто"));
         holder.mSwitch.setChecked(record.isUsed());
         return row;
@@ -75,7 +75,7 @@ public class HistoryAlarmAdapter extends ArrayAdapter<AlarmModel> {
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
             Log.d("HAD","Statr : "+b);
             if (mHistoryAlarmCheckChange != null){
-                mHistoryAlarmCheckChange.CheckChange(b);
+                mHistoryAlarmCheckChange.CheckChange( b);
             }
         }
     };
