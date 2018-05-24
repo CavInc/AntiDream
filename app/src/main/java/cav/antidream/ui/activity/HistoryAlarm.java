@@ -10,13 +10,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import cav.antidream.R;
 import cav.antidream.data.database.DBConnect;
 import cav.antidream.data.models.AlarmModel;
 import cav.antidream.ui.adapters.HistoryAlarmAdapter;
+import cav.antidream.utils.Utils;
 
 public class HistoryAlarm extends AppCompatActivity implements AdapterView.OnItemLongClickListener,View.OnClickListener {
     private ListView mListView;
@@ -107,9 +111,50 @@ public class HistoryAlarm extends AppCompatActivity implements AdapterView.OnIte
 
     HistoryAlarmAdapter.HistoryAlarmCheckChange mAlarmCheckChange = new HistoryAlarmAdapter.HistoryAlarmCheckChange() {
         @Override
-        public void CheckChange(boolean mode) {
+        public void CheckChange(AlarmModel model, boolean mode) {
             if (mode) {
                 // запускаем будильник по новой
+                Date currentDate = new Date();
+                Date date = model.getAlarmDate();
+
+                Calendar c = Calendar.getInstance();
+                c.setFirstDayOfWeek(Calendar.MONDAY);
+                int currentDay = c.get(Calendar.DAY_OF_WEEK);
+
+                c.setTime(date);
+                c.setFirstDayOfWeek(Calendar.MONDAY);
+                int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+                int h = c.get(Calendar.HOUR_OF_DAY);
+                int m = c.get(Calendar.MINUTE);
+
+                c.setTime(currentDate); // для того что бы сдвинуть
+                Log.d("HA","DAY :"+dayOfWeek+" CURDAY :"+currentDay);
+
+                if (dayOfWeek == currentDay) {
+                    // одинаковый день недели ставим будильник на сегодня
+                    currentDate.setHours(h);
+                    currentDate.setMinutes(m);
+                    model.setAlarmDate(currentDate);
+                }
+                if (dayOfWeek == Calendar.SUNDAY) dayOfWeek = 8;
+
+                if (dayOfWeek > currentDay) {
+                    // на оставшийся конец недели
+                    c.add(Calendar.DAY_OF_MONTH,dayOfWeek-currentDay);
+                    c.set(Calendar.HOUR_OF_DAY,h);
+                    c.set(Calendar.MINUTE,m);
+                    model.setAlarmDate(c.getTime());
+                } else if (dayOfWeek<currentDay){
+                   c.add(Calendar.DAY_OF_MONTH,dayOfWeek+7-currentDay);
+                    c.set(Calendar.HOUR_OF_DAY,h);
+                    c.set(Calendar.MINUTE,m);
+                    model.setAlarmDate(c.getTime());
+                }
+                Utils.setAlarm(HistoryAlarm.this,model);
+                DBConnect dbConnect = new DBConnect(HistoryAlarm.this);
+                dbConnect.setStopUsed(model.getId(),true);
+
+                Toast.makeText(HistoryAlarm.this,"Будильник включен",Toast.LENGTH_LONG);
             }
         }
     };

@@ -91,4 +91,8 @@ public class AlarmModel {
     public int getAlarmVolume() {
         return mAlarmVolume;
     }
+
+    public void setAlarmDate(Date date) {
+        mAlarmDate = date;
+    }
 }

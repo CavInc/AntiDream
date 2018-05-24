@@ -152,7 +152,7 @@ public class AlarmSignalActivity extends AppCompatActivity implements View.OnCli
     protected void onResume() {
         super.onResume();
         DBConnect dbConnect = new DBConnect(this);
-        dbConnect.setStopUser(alarm_id,false);
+        dbConnect.setStopUsed(alarm_id,false);
         startMusic();
     }
 

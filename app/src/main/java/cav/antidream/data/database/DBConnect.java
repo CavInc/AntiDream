@@ -88,7 +88,7 @@ public class DBConnect {
         return rec;
     }
 
-    public void setStopUser(int id,boolean flg){
+    public void setStopUsed(int id,boolean flg){
         open();
         ContentValues values = new ContentValues();
         values.put("used",(flg ? 0 : 1));

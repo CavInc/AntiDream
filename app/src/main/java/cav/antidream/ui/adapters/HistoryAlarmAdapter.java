@@ -61,6 +61,7 @@ public class HistoryAlarmAdapter extends ArrayAdapter<AlarmModel> {
         holder.mDateTime.setText(Utils.dateToStr("HH:mm  EEE,",record.getAlarmDate()));
         holder.mStatus.setText((record.isUsed() ? "Открыто":"Закрыто"));
         holder.mSwitch.setChecked(record.isUsed());
+        holder.mSwitch.setTag(position);
         return row;
 
     }
@@ -70,12 +71,18 @@ public class HistoryAlarmAdapter extends ArrayAdapter<AlarmModel> {
         this.addAll(model);
     }
 
+
     CompoundButton.OnCheckedChangeListener mChangeListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
             Log.d("HAD","Statr : "+b);
+            if (compoundButton.getTag() == null) return;;
+
+            int position = (int) compoundButton.getTag();
+            Log.d("HAD","POS :"+position);
             if (mHistoryAlarmCheckChange != null){
-                mHistoryAlarmCheckChange.CheckChange( b);
+                AlarmModel data = HistoryAlarmAdapter.this.getItem(position);
+                mHistoryAlarmCheckChange.CheckChange(data,b);
             }
         }
     };
@@ -85,7 +92,7 @@ public class HistoryAlarmAdapter extends ArrayAdapter<AlarmModel> {
     }
 
     public interface HistoryAlarmCheckChange {
-        public void CheckChange(boolean mode);
+        public void CheckChange(AlarmModel model,boolean mode);
     }
 
     class ViewHolder{
