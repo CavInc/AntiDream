@@ -50,8 +50,13 @@
                 android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/select_sound"
+                    android:layout_weight="1"
                     android:text="Выберите мелодию: "
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
             <LinearLayout
@@ -66,7 +71,9 @@
                 <SeekBar
                     android:id="@+id/volime_seek"
                     android:max="5"
-                    style="@style/Widget.AppCompat.SeekBar.Discrete"
+                    style="@style/MySeekBar"
+                    android:maxHeight="15dp"
+                    android:minWidth="15dp"
                     android:progress="5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>

@@ -23,4 +23,8 @@
     </style>
 
 
+    <style name="MySeekBar" parent="Widget.AppCompat.SeekBar">
+        <item name="android:thumb">@drawable/seek_traker</item>
+    </style>
+
 </resources>
