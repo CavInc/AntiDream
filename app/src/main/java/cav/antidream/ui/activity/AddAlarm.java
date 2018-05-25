@@ -44,7 +44,7 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
 
     private TextView mSetSound;
 
-    private int alarmSize = 3;
+    private int alarmVolume = 100;
 
     private String mAlarmName;
 
@@ -61,6 +61,7 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
         mSetSound.setOnClickListener(this);
 
         mSeekBar = (SeekBar) findViewById(R.id.volime_seek);
+        mSeekBar.setOnSeekBarChangeListener(this);
 
         mNameAlarm = (TextView) findViewById(R.id.alarm_name);
 
@@ -145,7 +146,7 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
 
         int id = (int) mAlarmStopTypeSpinner.getSelectedItemId();
 
-        AlarmModel data = new AlarmModel(mAlarmName,date,alarmSize,id,urlSound);
+        AlarmModel data = new AlarmModel(mAlarmName,date, alarmVolume,id,urlSound);
 
         DBConnect db = new DBConnect(this);
         int rec_id = db.storeAlarm(data);
@@ -159,7 +160,7 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progressValue, boolean b) {
-        alarmSize = progressValue;
+        alarmVolume = progressValue;
     }
 
     @Override
@@ -169,7 +170,12 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-
+        Toast.makeText(this,"Seek Valu : "+ alarmVolume,Toast.LENGTH_LONG).show();
+        if (alarmVolume == 1) alarmVolume = 20;
+        if (alarmVolume == 2) alarmVolume = 40;
+        if (alarmVolume == 3) alarmVolume = 60;
+        if (alarmVolume == 4) alarmVolume = 80;
+        if (alarmVolume == 5) alarmVolume = 100;
     }
 
     @Override

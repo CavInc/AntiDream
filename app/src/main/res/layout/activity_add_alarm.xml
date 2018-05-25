@@ -65,8 +65,9 @@
                     android:layout_height="wrap_content"/>
                 <SeekBar
                     android:id="@+id/volime_seek"
-                     android:max="100"
-                    android:progress="90"
+                    android:max="5"
+                    style="@style/Widget.AppCompat.SeekBar.Discrete"
+                    android:progress="5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>

@@ -27,10 +27,10 @@ public class AlarmModel {
         mUsed = used;
     }
 
-    public AlarmModel(String alarmName, Date alarmDate, int alarmSize, int alarmStopType, String alarmUrlMelodu) {
+    public AlarmModel(String alarmName, Date alarmDate, int alarmVolume, int alarmStopType, String alarmUrlMelodu) {
         mAlarmName = alarmName;
         mAlarmDate = alarmDate;
-        mAlarmSize = alarmSize;
+        mAlarmVolume = alarmVolume;
         mAlarmStopType = alarmStopType;
         mAlarmUrlMelodu = alarmUrlMelodu;
         mUsed = true;
