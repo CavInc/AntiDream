@@ -1,4 +1,4 @@
-package cav.antidream.ui;
+package cav.antidream.ui.dialogs;
 
 import android.content.Context;
 import android.content.CursorLoader;
@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +47,7 @@ public class SelectSoundAlarmDialog extends DialogFragment implements AdapterVie
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        getDialog().setTitle("Title!");
+        getDialog().setTitle("Трек для сигнала");
         View v = inflater.inflate(R.layout.select_sound_dialog, null);
 
         mListView = (ListView) v.findViewById(R.id.select_sound_lv);

@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -27,7 +26,8 @@ import java.util.GregorianCalendar;
 import cav.antidream.R;
 import cav.antidream.data.database.DBConnect;
 import cav.antidream.data.models.AlarmModel;
-import cav.antidream.ui.SelectSoundAlarmDialog;
+import cav.antidream.ui.dialogs.SelectSoundAlarmDialog;
+import cav.antidream.ui.dialogs.SetNameDialog;
 import cav.antidream.utils.ConstantManager;
 import cav.antidream.utils.Utils;
 
@@ -35,15 +35,18 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
 
     private TimePicker mTime;
     private DatePicker mDate;
-    private EditText mNameAlarm;
     private Spinner mAlarmStopTypeSpinner;
     private SeekBar mSeekBar;
+
+    private TextView mNameAlarm;
 
     private MaterialCalendarView mCalendarView;
 
     private TextView mSetSound;
 
     private int alarmSize = 3;
+
+    private String mAlarmName;
 
 
     @Override
@@ -57,9 +60,12 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
         mSetSound = (TextView) findViewById(R.id.select_sound);
         mSetSound.setOnClickListener(this);
 
-        mNameAlarm = (EditText) findViewById(R.id.alarm_name);
+        mSeekBar = (SeekBar) findViewById(R.id.volime_seek);
 
-        mSeekBar = (SeekBar) findViewById(R.id.seekBar);
+        mNameAlarm = (TextView) findViewById(R.id.alarm_name);
+
+        findViewById(R.id.set_name_alarm).setOnClickListener(this);
+
         mAlarmStopTypeSpinner = (Spinner) findViewById(R.id.alarm_stop_type);
 
         mTime.setIs24HourView(true);
@@ -83,7 +89,6 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
         stopTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mAlarmStopTypeSpinner.setAdapter(stopTypeAdapter);
 
-        mSeekBar.setOnSeekBarChangeListener(this);
         setupToolbar();
     }
 
@@ -140,8 +145,7 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
 
         int id = (int) mAlarmStopTypeSpinner.getSelectedItemId();
 
-        AlarmModel data = new AlarmModel(mNameAlarm.getText().toString()
-                ,date,alarmSize,id,urlSound);
+        AlarmModel data = new AlarmModel(mAlarmName,date,alarmSize,id,urlSound);
 
         DBConnect db = new DBConnect(this);
         int rec_id = db.storeAlarm(data);
@@ -170,9 +174,16 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
 
     @Override
     public void onClick(View view) {
-        SelectSoundAlarmDialog dialog = new SelectSoundAlarmDialog();
-        dialog.setOnSoundChangeListener(mSoundChangeListener);
-        dialog.show(getSupportFragmentManager(),"SQ");
+        if (view.getId()==R.id.select_sound) {
+            SelectSoundAlarmDialog dialog = new SelectSoundAlarmDialog();
+            dialog.setOnSoundChangeListener(mSoundChangeListener);
+            dialog.show(getSupportFragmentManager(), "SQ");
+        }
+        if (view.getId() == R.id.set_name_alarm){
+            SetNameDialog dialog = new SetNameDialog();
+            dialog.setOnSetNameLisneter(mOnSetNameLisneter);
+            dialog.show(getSupportFragmentManager(),"SN");
+        }
     }
 
     private String urlSound;
@@ -182,6 +193,14 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
         public void onSoundChange(String title, String url) {
             mSetSound.setText("Выберите мелодию: "+ title);
             urlSound = url;
+        }
+    };
+
+    SetNameDialog.OnSetNameLisneter mOnSetNameLisneter = new SetNameDialog.OnSetNameLisneter() {
+        @Override
+        public void SetName(String name) {
+            mAlarmName = name;
+            mNameAlarm.setText(mAlarmName);
         }
     };
 
