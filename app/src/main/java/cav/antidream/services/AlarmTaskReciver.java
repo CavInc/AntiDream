@@ -73,6 +73,7 @@ public class AlarmTaskReciver extends BroadcastReceiver {
         intent.putExtra("TYPE_ALARM",mModel.getAlarmStopType());
         intent.putExtra("SIZE_ALARM",mModel.getAlarmSize());
         intent.putExtra("ALARM_ID",mModel.getId());
+        intent.putExtra("ALARM_VOLUME",mModel.getAlarmVolume());
         intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }

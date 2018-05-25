@@ -54,6 +54,7 @@ public class AlarmSignalActivity extends AppCompatActivity implements View.OnCli
     private int falseCount = 4;// количество неверных попыток
     private int usedStakan; // стакан под которым отключалка
     private LinearLayout ll;
+    private int alarm_volume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +89,7 @@ public class AlarmSignalActivity extends AppCompatActivity implements View.OnCli
         alarm_id = getIntent().getIntExtra("ALARM_ID",-1);
         alarm_type = getIntent().getIntExtra("TYPE_ALARM", -1);
         alarm_size = getIntent().getIntExtra("SIZE_ALARM",0);
+        alarm_volume = getIntent().getIntExtra("ALARM_VOLUME",100);
 
         SwipeButton enableButton = (SwipeButton) findViewById(R.id.stop_alarm);
 
@@ -178,7 +180,7 @@ public class AlarmSignalActivity extends AppCompatActivity implements View.OnCli
                 mMediaPlayer.reset();
                 mMediaPlayer.setDataSource(this, Uri.parse(urlSound));
                 mMediaPlayer.prepare();
-                mMediaPlayer.setVolume(1.0f, 1.0f);
+                mMediaPlayer.setVolume(alarm_volume/100.0f, alarm_volume/100.0f);
                 mMediaPlayer.setScreenOnWhilePlaying(true); // не дает уснуть во премя воспроизведениея ?
                 mMediaPlayer.setLooping(true); // зациклим до окончания работы активности
                 int duration = mMediaPlayer.getDuration();
