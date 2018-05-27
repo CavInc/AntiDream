@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import cav.antidream.data.models.AlarmModel;
 import cav.antidream.services.AlarmTaskReciver;
@@ -43,5 +44,16 @@ public class Utils {
         Calendar c = Calendar.getInstance();
         c.setTime(model.getAlarmDate());
         am.set(AlarmManager.RTC_WAKEUP,c.getTimeInMillis(),pi);
+    }
+
+    public static Date dateRemoveTime(Date date){
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        return calendar.getTime();
     }
 }

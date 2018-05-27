@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="cav.antidream">
+<manifest package="cav.antidream"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <!-- - для HTC и некоторых других: -->
+    <uses-permission android:name="android.permission.QUICKBOOT_POWERON"/>
 
     <application
         android:allowBackup="true"
@@ -11,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.MainActivity"
+        <activity
+            android:name=".ui.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -21,9 +25,9 @@
         </activity>
         <activity
             android:name=".ui.activity.AddAlarm"
+            android:label="Добавить будильник"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            android:label="Добавить будильник">
+            android:windowSoftInputMode="adjustPan">
         </activity>
         <activity
             android:name=".ui.activity.HistoryAlarm"
@@ -36,13 +40,33 @@
             android:exported="true">
         </receiver>
 
-        <activity android:name=".ui.activity.AlarmSignalActivity"
-                  android:configChanges="orientation|screenSize"
-                  android:launchMode="singleTop"
-                  android:showOnLockScreen="true"
+        <activity
+            android:name=".ui.activity.AlarmSignalActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme.NoActionBar">
+            android:showOnLockScreen="true"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
+
+        <receiver
+            android:name=".services.AlarmBootReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
+                <action android:name="android.intent.action.REBOOT"/> <!-- для Xiaomi -->
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".services.StartAlarmInReboot"
+            android:enabled="true"
+            android:exported="false">
+        </service>
     </application>
 
 </manifest>

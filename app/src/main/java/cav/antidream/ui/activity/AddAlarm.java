@@ -58,7 +58,8 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
         //mDate = (DatePicker) findViewById(R.id.datePicker);
 
         mSetSound = (TextView) findViewById(R.id.select_sound);
-        mSetSound.setOnClickListener(this);
+        findViewById(R.id.select_sound_lv).setOnClickListener(this);
+
 
         mSeekBar = (SeekBar) findViewById(R.id.volime_seek);
         mSeekBar.setOnSeekBarChangeListener(this);
@@ -114,13 +115,13 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
             onBackPressed();
         }
         if (item.getItemId() == R.id.save_item) {
-            saveData();
+            if (!saveData()) return false;
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void saveData(){
+    private boolean saveData(){
         int h;
         int m;
         if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) {
@@ -130,6 +131,10 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
             h = mTime.getCurrentHour();
             m = mTime.getCurrentMinute();
         }
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+
 
         CalendarDay cd = mCalendarView.getSelectedDate();
         int year = cd.getYear();
@@ -146,6 +151,18 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
 
         int id = (int) mAlarmStopTypeSpinner.getSelectedItemId();
 
+        if (date.before(c.getTime())) {
+            Toast.makeText(this,"Дата или время меньше текущей(го)",Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        if(Utils.dateRemoveTime(cd.getDate()).compareTo(Utils.dateRemoveTime(c.getTime())) == 0 ){
+            if ( h<c.get(Calendar.HOUR_OF_DAY) ){
+                Toast.makeText(this,"Время меньше текущего",Toast.LENGTH_LONG).show();
+                return false;
+            }
+        }
+
         AlarmModel data = new AlarmModel(mAlarmName,date, alarmVolume,id,urlSound);
 
         DBConnect db = new DBConnect(this);
@@ -156,7 +173,14 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
         // а тут должны запустить будильник
         Utils.setAlarm(this,data);
         Toast.makeText(this,"Будильник включен",Toast.LENGTH_LONG).show();
+        return true;
     }
+
+  //  https://habr.com/sandbox/69154/
+ //   https://ru.stackoverflow.com/questions/473690/seekbar-%D0%BA%D0%B0%D1%81%D1%82%D0%BE%D0%BC%D0%BD%D1%8B%D0%B9-background-progress
+  //  http://www.zoftino.com/android-seekbar-and-custom-seekbar-examples
+ //   https://www.youtube.com/watch?v=iHOW15y-8U4
+
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progressValue, boolean b) {
@@ -170,7 +194,6 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        Toast.makeText(this,"Seek Valu : "+ alarmVolume,Toast.LENGTH_LONG).show();
         if (alarmVolume == 1) alarmVolume = 20;
         if (alarmVolume == 2) alarmVolume = 40;
         if (alarmVolume == 3) alarmVolume = 60;
@@ -180,7 +203,7 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
 
     @Override
     public void onClick(View view) {
-        if (view.getId()==R.id.select_sound) {
+        if (view.getId()==R.id.select_sound_lv) {
             SelectSoundAlarmDialog dialog = new SelectSoundAlarmDialog();
             dialog.setOnSoundChangeListener(mSoundChangeListener);
             dialog.show(getSupportFragmentManager(), "SQ");
@@ -197,7 +220,7 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
     SelectSoundAlarmDialog.OnSoundChangeListener mSoundChangeListener = new SelectSoundAlarmDialog.OnSoundChangeListener() {
         @Override
         public void onSoundChange(String title, String url) {
-            mSetSound.setText("Выберите мелодию: "+ title);
+            mSetSound.setText(title);
             urlSound = url;
         }
     };

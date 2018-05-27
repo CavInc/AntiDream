@@ -29,6 +29,8 @@ public class HistoryAlarmAdapter extends ArrayAdapter<AlarmModel> {
     private LayoutInflater mInflater;
     private int resLayout;
 
+    private boolean lockRec = true;
+
     private HistoryAlarmCheckChange mHistoryAlarmCheckChange;
 
 
@@ -60,8 +62,10 @@ public class HistoryAlarmAdapter extends ArrayAdapter<AlarmModel> {
         holder.mTitle.setText(record.getAlarmName());
         holder.mDateTime.setText(Utils.dateToStr("HH:mm  EEE,",record.getAlarmDate()));
         holder.mStatus.setText((record.isUsed() ? "Открыто":"Закрыто"));
+        lockRec = true;
         holder.mSwitch.setChecked(record.isUsed());
         holder.mSwitch.setTag(position);
+        lockRec = false;
         return row;
 
     }
@@ -76,7 +80,8 @@ public class HistoryAlarmAdapter extends ArrayAdapter<AlarmModel> {
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
             Log.d("HAD","Statr : "+b);
-            if (compoundButton.getTag() == null) return;;
+            if (compoundButton.getTag() == null) return;
+            if (lockRec) return;
 
             int position = (int) compoundButton.getTag();
             Log.d("HAD","POS :"+position);

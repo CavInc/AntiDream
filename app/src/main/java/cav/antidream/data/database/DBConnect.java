@@ -52,7 +52,8 @@ public class DBConnect {
         ArrayList<AlarmModel> rec = new ArrayList<>();
         open();
         Cursor cursor = database.query(DBHelper.ALARM_TABLE,
-                new String[]{"_id","name_alarm","datetime","stop_type","alarm_size","url_sound","used","alarm_volume"},null,null,null,null,"_id");
+                new String[]{"_id","name_alarm","datetime","stop_type","alarm_size","url_sound","used","alarm_volume"},
+                null,null,null,null,"_id");
         while (cursor.moveToNext()){
             rec.add(new AlarmModel(
                     cursor.getInt(cursor.getColumnIndex("_id")),
@@ -72,7 +73,8 @@ public class DBConnect {
     public AlarmModel getOneAlarmRec(int id){
         open();
         Cursor cursor = database.query(DBHelper.ALARM_TABLE,
-                new String[]{"_id","name_alarm","datetime","stop_type","alarm_size","url_sound","used","alarm_volume"},"_id="+id,null,null,null,"_id");
+                new String[]{"_id","name_alarm","datetime","stop_type","alarm_size","url_sound","used","alarm_volume"},
+                "_id="+id,null,null,null,"_id");
         cursor.moveToFirst();
         AlarmModel rec = new AlarmModel(
                 cursor.getInt(cursor.getColumnIndex("_id")),
@@ -84,6 +86,28 @@ public class DBConnect {
                 cursor.getInt(cursor.getColumnIndex("alarm_volume")),
                 (cursor.getInt(cursor.getColumnIndex("used")) == 0 ? true:false)
         );
+        close();
+        return rec;
+    }
+
+    public ArrayList<AlarmModel> getUsedAlarmRec(){
+        ArrayList<AlarmModel> rec = new ArrayList<>();
+        open();
+        Cursor cursor = database.query(DBHelper.ALARM_TABLE,
+                new String[]{"_id","name_alarm","datetime","stop_type","alarm_size","url_sound","used","alarm_volume"},
+                "used=0",null,null,null,"_id");
+        while (cursor.moveToNext()){
+            rec.add(new AlarmModel(
+                    cursor.getInt(cursor.getColumnIndex("_id")),
+                    cursor.getString(cursor.getColumnIndex("name_alarm")),
+                    Utils.StrToDate("yyyy-MM-dd HH:mm",cursor.getString(cursor.getColumnIndex("datetime"))),
+                    cursor.getInt(cursor.getColumnIndex("alarm_size")),
+                    cursor.getInt(cursor.getColumnIndex("stop_type")),
+                    cursor.getString(cursor.getColumnIndex("url_sound")),
+                    cursor.getInt(cursor.getColumnIndex("alarm_volume")),
+                    (cursor.getInt(cursor.getColumnIndex("used")) == 0 ? true:false)
+            ));
+        }
         close();
         return rec;
     }
