@@ -1,9 +1,8 @@
 package cav.antidream.ui.activity;
 
+import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
-import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -18,22 +17,18 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
-import android.view.animation.Interpolator;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ebanx.swipebtn.OnActiveListener;
-import com.ebanx.swipebtn.OnStateChangeListener;
+
 import com.ebanx.swipebtn.SwipeButton;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import cav.antidream.R;
@@ -339,72 +334,26 @@ public class AlarmSignalActivity extends AppCompatActivity implements View.OnCli
 
     // анимация стакана
     private void animation(){
-        /*
-        Animation oneLeft = AnimationUtils.loadAnimation(this,R.anim.one_left_item);
-        Animation oneCenter = AnimationUtils.loadAnimation(this,R.anim.one_center_item);
-        Animation oneRight = AnimationUtils.loadAnimation(this,R.anim.one_rigth_item);
 
-        Log.d("ASA","LO 1:"+mImg1.getLeft());
-        Log.d("ASA","LO 2:"+mImg2.getLeft());
-        Log.d("ASA","LO 3:"+mImg3.getLeft());
-
-       // mStackImg[0].setAnimation(oneLeft);
-        mStackImg[1].setAnimation(oneCenter);
-        mStackImg[2].setAnimation(oneRight);
-
-        // меняем местами в очереди
-        ImageView l = mStackImg[1];
-        mStackImg[1] = mStackImg[2];
-        mStackImg[2] = mStackImg[0];
-        mStackImg[0] = l;
-
-        Log.d("ASA","LO 1:"+mImg1.getLeft());
-        Log.d("ASA","LO 2:"+mImg2.getLeft());
-        Log.d("ASA","LO 3:"+mImg3.getLeft());
-        */
-        /*
-        ValueAnimator pathAnimator = ValueAnimator.ofFloat(0.0f, 1.0f);
-        pathAnimator.setDuration(5000);
-        pathAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float value = ((Float) (animation.getAnimatedValue()))
-                        .floatValue();
-               // mImg1.setTranslationX((float)(200.0 * Math.sin(value*Math.PI)));
-               // mImg1.setTranslationY((float)(200.0 * Math.cos(value*Math.PI)));
-              //  mImg2.setTranslationX((float)(200.0 * Math.sin(value*Math.PI)));
-              //  mImg2.setTranslationY((float)(200.0 * Math.cos(value*Math.PI)));
-              //  mImg3.setTranslationX((float)(200.0 * Math.sin(value*Math.PI)));
-              //  mImg3.setTranslationY((float)(200.0 * Math.cos(value*Math.PI)));
-                Log.d("ASA","VALUE :"+value);
-                mStackImg[0].setTranslationX(value+mImg3.getLeft());
-                mStackImg[1].setTranslationX(value-10);
-                mStackImg[2].setTranslationX(value-mImg2.getLeft());
-                //Log.d("ASA","LO 1:"+mImg1.getLeft());
-                //Log.d("ASA","LO 2:"+mImg2.getLeft());
-               // Log.d("ASA","LO 3:"+mImg3.getLeft());
-            }
-        });
-        pathAnimator.start();
-        */
         int im2 = mImg2.getLeft();
         int im3 = mImg3.getLeft();
         int im1 = mImg1.getLeft();
 
+        //http://qaru.site/questions/548774/stop-animatorset-of-objectanimators-in-android
+
         AnimatorSet set  = new AnimatorSet();
-        set.setDuration(1000);
+        set.setDuration(200);
         set.playTogether(
                 //ObjectAnimator.ofFloat(mImg2,"translationY",0,100),
-                //ObjectAnimator.ofFloat(mImg2,"translationX",im2,im1),
-                ObjectAnimator.ofFloat(mImg2,"translationY",0,100),
-                //ObjectAnimator.ofFloat(mImg1,"translationX",im1,im3),
-                ObjectAnimator.ofFloat(mImg1,"translationY",0,100),
-                //ObjectAnimator.ofFloat(mImg3,"translationX",im3,im2)
-                ObjectAnimator.ofFloat(mImg3,"translationY",0,100)
+                ObjectAnimator.ofFloat(mImg2,"translationX",0,-(im2-im1)),
+                //ObjectAnimator.ofFloat(mImg2,"translationY",0,100),
+                ObjectAnimator.ofFloat(mImg1,"translationX",0,(im3-im1)),
+                //ObjectAnimator.ofFloat(mImg1,"translationY",0,100),
+                ObjectAnimator.ofFloat(mImg3,"translationX",0,-(im3-im2))
+                //ObjectAnimator.ofFloat(mImg3,"translationY",0,100)
 
         );
         set.start();
-
     }
 
 }
