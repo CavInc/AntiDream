@@ -1,5 +1,6 @@
 package cav.antidream.ui.activity;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -15,6 +16,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -119,6 +124,11 @@ public class AlarmSignalActivity extends AppCompatActivity implements View.OnCli
         mImg1.setOnClickListener(this);
         mImg2.setOnClickListener(this);
         mImg3.setOnClickListener(this);
+
+        mStackImg = new ImageView[3];
+        mStackImg[0] = mImg1;
+        mStackImg[1] = mImg2;
+        mStackImg[2] = mImg3;
 
         switch (alarm_type) {
             case ConstantManager.ALARM_STOP_KEY:
@@ -283,6 +293,7 @@ public class AlarmSignalActivity extends AppCompatActivity implements View.OnCli
             if (falseCount == 0 ){
                 closeDelay();
             }
+            animation();
             // тут дожна быть задежка со счетчиком
             lock = true;
             new Thread(new Runnable() {
@@ -312,12 +323,56 @@ public class AlarmSignalActivity extends AppCompatActivity implements View.OnCli
                         @Override
                         public void run() {
                             ((TextView) findViewById(R.id.game_status)).setText("Играем дальше !");
+
                         }
                     });
                 }
             }).start();
 
         }
+    }
+
+    private ImageView[] mStackImg;
+
+    // анимация стакана
+    private void animation(){
+        /*
+        Animation oneLeft = AnimationUtils.loadAnimation(this,R.anim.one_left_item);
+        Animation oneCenter = AnimationUtils.loadAnimation(this,R.anim.one_center_item);
+        Animation oneRight = AnimationUtils.loadAnimation(this,R.anim.one_rigth_item);
+
+        Log.d("ASA","LO 1:"+mImg1.getLeft());
+        Log.d("ASA","LO 2:"+mImg2.getLeft());
+        Log.d("ASA","LO 3:"+mImg3.getLeft());
+
+       // mStackImg[0].setAnimation(oneLeft);
+        mStackImg[1].setAnimation(oneCenter);
+        mStackImg[2].setAnimation(oneRight);
+
+        // меняем местами в очереди
+        ImageView l = mStackImg[1];
+        mStackImg[1] = mStackImg[2];
+        mStackImg[2] = mStackImg[0];
+        mStackImg[0] = l;
+
+        Log.d("ASA","LO 1:"+mImg1.getLeft());
+        Log.d("ASA","LO 2:"+mImg2.getLeft());
+        Log.d("ASA","LO 3:"+mImg3.getLeft());
+        */
+        ValueAnimator pathAnimator = ValueAnimator.ofFloat(0.0f, 1.0f);
+        pathAnimator.setDuration(5000);
+        pathAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = ((Float) (animation.getAnimatedValue()))
+                        .floatValue();
+                mImg1.setTranslationX((float)(200.0 * Math.sin(value*Math.PI)));
+                mImg1.setTranslationY((float)(200.0 * Math.cos(value*Math.PI)));
+            }
+        });
+
+        pathAnimator.start();
 
     }
+
 }
