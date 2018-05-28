@@ -394,9 +394,9 @@ public class AlarmSignalActivity extends AppCompatActivity implements View.OnCli
         AnimatorSet set  = new AnimatorSet();
         set.setDuration(1000);
         set.playTogether(
-                ObjectAnimator.ofFloat(mImg1,"translationY",0,100),
-                ObjectAnimator.ofFloat(mImg2,"translationX",im2,im1),
-               // ObjectAnimator.ofFloat(mImg1,"translationX",im1,im3),
+                ObjectAnimator.ofFloat(mImg2,"translationY",0,100),
+                //ObjectAnimator.ofFloat(mImg2,"translationX",im2,im1),
+                ObjectAnimator.ofFloat(mImg1,"translationX",im1,im3),
                 ObjectAnimator.ofFloat(mImg3,"translationX",im3,im2)
 
         );
