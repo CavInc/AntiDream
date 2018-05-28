@@ -368,11 +368,13 @@ public class AlarmSignalActivity extends AppCompatActivity implements View.OnCli
                         .floatValue();
                 mImg1.setTranslationX((float)(200.0 * Math.sin(value*Math.PI)));
                 mImg1.setTranslationY((float)(200.0 * Math.cos(value*Math.PI)));
+                mImg2.setTranslationX((float)(200.0 * Math.sin(value*Math.PI)));
+                mImg2.setTranslationY((float)(200.0 * Math.cos(value*Math.PI)));
+                mImg3.setTranslationX((float)(200.0 * Math.sin(value*Math.PI)));
+                mImg3.setTranslationY((float)(200.0 * Math.cos(value*Math.PI)));
             }
         });
-
         pathAnimator.start();
-
     }
 
 }
