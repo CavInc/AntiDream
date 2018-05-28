@@ -340,6 +340,7 @@ public class AlarmSignalActivity extends AppCompatActivity implements View.OnCli
         int im1 = mImg1.getLeft();
 
         //http://qaru.site/questions/548774/stop-animatorset-of-objectanimators-in-android
+        // http://qaru.site/questions/434923/how-to-prepare-curve-translate-animation-for-android
 
         AnimatorSet set  = new AnimatorSet();
         set.setDuration(200);
