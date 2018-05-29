@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import cav.antidream.data.database.DBConnect;
 import cav.antidream.data.models.AlarmModel;
+import cav.antidream.utils.ConstantManager;
 import cav.antidream.utils.Utils;
 
 public class StartAlarmInReboot extends Service {
@@ -24,7 +25,7 @@ public class StartAlarmInReboot extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(this,"Ребут !!!!",Toast.LENGTH_LONG).show();
+        restartAlarm();
         return START_NOT_STICKY;
     }
 
@@ -32,7 +33,7 @@ public class StartAlarmInReboot extends Service {
         DBConnect dbConnect = new DBConnect(getBaseContext());
         ArrayList<AlarmModel> data = dbConnect.getUsedAlarmRec();
         for (AlarmModel l : data){
-            Utils.setAlarm(getBaseContext(),l);
+            Utils.setAlarm(getBaseContext(),l, ConstantManager.ALARM_START);
         }
     }
 

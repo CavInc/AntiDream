@@ -13,5 +13,8 @@ public interface ConstantManager {
     int ALARM_STOP_SLIDE = 1;
     int ALARM_STOP_GAME = 2;
 
+    boolean ALARM_START = true;
+    boolean ALARM_CANCEL = false;
+
 
 }

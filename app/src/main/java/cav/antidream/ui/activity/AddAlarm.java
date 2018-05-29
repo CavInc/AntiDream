@@ -171,7 +171,7 @@ public class AddAlarm extends AppCompatActivity implements SeekBar.OnSeekBarChan
 
 
         // а тут должны запустить будильник
-        Utils.setAlarm(this,data);
+        Utils.setAlarm(this,data,ConstantManager.ALARM_START);
         Toast.makeText(this,"Будильник включен",Toast.LENGTH_LONG).show();
         return true;
     }

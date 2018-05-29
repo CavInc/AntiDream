@@ -20,6 +20,7 @@ import cav.antidream.R;
 import cav.antidream.data.database.DBConnect;
 import cav.antidream.data.models.AlarmModel;
 import cav.antidream.ui.adapters.HistoryAlarmAdapter;
+import cav.antidream.utils.ConstantManager;
 import cav.antidream.utils.Utils;
 
 public class HistoryAlarm extends AppCompatActivity implements AdapterView.OnItemLongClickListener,View.OnClickListener {
@@ -120,6 +121,8 @@ public class HistoryAlarm extends AppCompatActivity implements AdapterView.OnIte
                 Calendar c = Calendar.getInstance();
                 c.setFirstDayOfWeek(Calendar.MONDAY);
                 int currentDay = c.get(Calendar.DAY_OF_WEEK);
+                int currentH = c.get(Calendar.HOUR_OF_DAY);
+                int currentM = c.get(Calendar.MINUTE);
 
                 c.setTime(date);
                 c.setFirstDayOfWeek(Calendar.MONDAY);
@@ -131,11 +134,20 @@ public class HistoryAlarm extends AppCompatActivity implements AdapterView.OnIte
                 Log.d("HA","DAY :"+dayOfWeek+" CURDAY :"+currentDay);
 
                 if (dayOfWeek == currentDay) {
-                    // одинаковый день недели ставим будильник на сегодня
-                    currentDate.setHours(h);
-                    currentDate.setMinutes(m);
-                    model.setAlarmDate(currentDate);
+                    // одинаковый день недели ставим будильник на сегодня если время больше текущего
+                    // и на другою неделю если меньше
+                    if (h>=currentH && m>currentM) {
+                        currentDate.setHours(h);
+                        currentDate.setMinutes(m);
+                        model.setAlarmDate(currentDate);
+                    } else {
+                        c.add(Calendar.DAY_OF_MONTH,dayOfWeek+7);
+                        c.set(Calendar.HOUR_OF_DAY,h);
+                        c.set(Calendar.MINUTE,m);
+                        model.setAlarmDate(c.getTime());
+                    }
                 }
+
                 if (dayOfWeek == Calendar.SUNDAY) dayOfWeek = 8;
 
                 if (dayOfWeek > currentDay) {
@@ -150,11 +162,14 @@ public class HistoryAlarm extends AppCompatActivity implements AdapterView.OnIte
                     c.set(Calendar.MINUTE,m);
                     model.setAlarmDate(c.getTime());
                 }
-                Utils.setAlarm(HistoryAlarm.this,model);
+                Utils.setAlarm(HistoryAlarm.this,model, ConstantManager.ALARM_START);
                 DBConnect dbConnect = new DBConnect(HistoryAlarm.this);
                 dbConnect.setStopUsed(model.getId(),true);
 
                 Toast.makeText(HistoryAlarm.this,"Будильник включен",Toast.LENGTH_LONG).show();
+            } else {
+                // отключение будильника
+                Utils.setAlarm(HistoryAlarm.this,model,ConstantManager.ALARM_CANCEL);
             }
         }
     };

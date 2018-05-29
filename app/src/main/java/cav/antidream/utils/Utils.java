@@ -35,15 +35,19 @@ public class Utils {
         return null;
     }
 
-    public static void setAlarm(Context context,AlarmModel model){
+    public static void setAlarm(Context context,AlarmModel model,boolean mode){
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent=new Intent(context, AlarmTaskReciver.class);
         intent.putExtra(ConstantManager.ALARM_ID,model.getId());
         // добавить констану ?
-        PendingIntent pi= PendingIntent.getBroadcast(context,model.getId(), intent,0);
+        PendingIntent pi= PendingIntent.getBroadcast(context,model.getId(), intent,PendingIntent.FLAG_UPDATE_CURRENT);
         Calendar c = Calendar.getInstance();
         c.setTime(model.getAlarmDate());
-        am.set(AlarmManager.RTC_WAKEUP,c.getTimeInMillis(),pi);
+        if (mode) {
+            am.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pi);
+        } else {
+            am.cancel(pi);
+        }
     }
 
     public static Date dateRemoveTime(Date date){
