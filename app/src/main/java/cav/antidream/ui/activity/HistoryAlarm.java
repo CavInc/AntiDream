@@ -133,6 +133,8 @@ public class HistoryAlarm extends AppCompatActivity implements AdapterView.OnIte
                 c.setTime(currentDate); // для того что бы сдвинуть
                 Log.d("HA","DAY :"+dayOfWeek+" CURDAY :"+currentDay);
 
+                String alarmDay = null;
+
                 if (dayOfWeek == currentDay) {
                     // одинаковый день недели ставим будильник на сегодня если время больше текущего
                     // и на другою неделю если меньше
@@ -140,11 +142,13 @@ public class HistoryAlarm extends AppCompatActivity implements AdapterView.OnIte
                         currentDate.setHours(h);
                         currentDate.setMinutes(m);
                         model.setAlarmDate(currentDate);
+                        alarmDay = Utils.dateToStr("EE, dd.MM HH:mm",currentDate);
                     } else {
-                        c.add(Calendar.DAY_OF_MONTH,dayOfWeek+7);
+                        c.add(Calendar.DAY_OF_MONTH,dayOfWeek+7-currentDay);
                         c.set(Calendar.HOUR_OF_DAY,h);
                         c.set(Calendar.MINUTE,m);
                         model.setAlarmDate(c.getTime());
+                        alarmDay = Utils.dateToStr("EE, dd.MM HH:mm",c.getTime());
                     }
                 }
 
@@ -156,20 +160,24 @@ public class HistoryAlarm extends AppCompatActivity implements AdapterView.OnIte
                     c.set(Calendar.HOUR_OF_DAY,h);
                     c.set(Calendar.MINUTE,m);
                     model.setAlarmDate(c.getTime());
+                    alarmDay = Utils.dateToStr("EE, dd.MM HH:mm",c.getTime());
                 } else if (dayOfWeek<currentDay){
                    c.add(Calendar.DAY_OF_MONTH,dayOfWeek+7-currentDay);
                     c.set(Calendar.HOUR_OF_DAY,h);
                     c.set(Calendar.MINUTE,m);
                     model.setAlarmDate(c.getTime());
+                    alarmDay = Utils.dateToStr("EE, dd.MM HH:mm",c.getTime());
                 }
                 Utils.setAlarm(HistoryAlarm.this,model, ConstantManager.ALARM_START);
                 DBConnect dbConnect = new DBConnect(HistoryAlarm.this);
                 dbConnect.setStopUsed(model.getId(),true);
 
-                Toast.makeText(HistoryAlarm.this,"Будильник включен",Toast.LENGTH_LONG).show();
+                Toast.makeText(HistoryAlarm.this,"Будильник включен на: "+alarmDay,Toast.LENGTH_LONG).show();
             } else {
                 // отключение будильника
                 Utils.setAlarm(HistoryAlarm.this,model,ConstantManager.ALARM_CANCEL);
+                DBConnect dbConnect = new DBConnect(HistoryAlarm.this);
+                dbConnect.setStopUsed(model.getId(),false);
             }
         }
     };
