@@ -171,6 +171,7 @@ public class HistoryAlarm extends AppCompatActivity implements AdapterView.OnIte
                 Utils.setAlarm(HistoryAlarm.this,model, ConstantManager.ALARM_START);
                 DBConnect dbConnect = new DBConnect(HistoryAlarm.this);
                 dbConnect.setStopUsed(model.getId(),true);
+                mAdapter.notifyDataSetChanged();
 
                 Toast.makeText(HistoryAlarm.this,"Будильник включен на: "+alarmDay,Toast.LENGTH_LONG).show();
             } else {
@@ -178,6 +179,7 @@ public class HistoryAlarm extends AppCompatActivity implements AdapterView.OnIte
                 Utils.setAlarm(HistoryAlarm.this,model,ConstantManager.ALARM_CANCEL);
                 DBConnect dbConnect = new DBConnect(HistoryAlarm.this);
                 dbConnect.setStopUsed(model.getId(),false);
+                mAdapter.notifyDataSetChanged();
             }
         }
     };

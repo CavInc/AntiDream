@@ -95,4 +95,8 @@ public class AlarmModel {
     public void setAlarmDate(Date date) {
         mAlarmDate = date;
     }
+
+    public void setUsed(boolean used) {
+        mUsed = used;
+    }
 }

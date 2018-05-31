@@ -87,6 +87,7 @@ public class HistoryAlarmAdapter extends ArrayAdapter<AlarmModel> {
             Log.d("HAD","POS :"+position);
             if (mHistoryAlarmCheckChange != null){
                 AlarmModel data = HistoryAlarmAdapter.this.getItem(position);
+                HistoryAlarmAdapter.this.getItem(position).setUsed(b);
                 mHistoryAlarmCheckChange.CheckChange(data,b);
             }
         }
