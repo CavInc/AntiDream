@@ -44,22 +44,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mDate.setText(Utils.dateToStr("EEE, dd MMM",new Date()));
         mTime.setText(Utils.dateToStr("HH:mm",new Date()));
 
-        Date selectedDate = new Date();
-        if (new SimpleDateFormat("dd.MM.yyy").format(selectedDate).equals("6.06.2018")) {
-
-            AlertDialog.Builder dialog =  new AlertDialog.Builder(this);
-            dialog.setTitle(R.string.app_name)
-                    .setMessage("Завершение работы демоверсии")
-                    .setPositiveButton("Закрыть", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            finish();
-                        }
-                    })
-                    .create();
-            dialog.show();
-
-        }
     }
 
     @Override
